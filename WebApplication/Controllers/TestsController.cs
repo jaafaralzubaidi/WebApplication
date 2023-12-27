@@ -61,7 +61,6 @@ namespace WebApplication.Controllers
             testDBContext.Test.Add(test);
             testDBContext.SaveChanges();
             return StatusCode(HttpStatusCode.Created);
-            
         }
 
         // PUT: api/Tests/5
