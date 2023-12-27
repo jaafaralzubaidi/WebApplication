@@ -51,6 +51,26 @@ namespace WebApplication.Controllers
             return Ok(found);
         }
 
+        // GET: api/Test/PagingTest?pageNumber=1&pageSize=5 or api/Test/PagingTest with default values
+        [HttpGet]
+        [Route("api/Test/PagingTest/{pageNumber=1}/{pageSize=5}")]
+        public IHttpActionResult PagingTest(int pageNumber, int pageSize)
+        {
+            // need to use OrderBy before using skip in LINQ 
+            var tests = testDBContext.Test.OrderBy(t => t.Id);
+
+            //paging algorithm
+            return Ok(tests.Skip((pageNumber - 1) * pageSize).Take(pageSize));
+        }
+
+        //GET: api/Tests/SearchTests?type=action
+        [HttpGet]
+        [Route("api/Tests/SearchTests/{type=}")]
+        public IHttpActionResult SearchingTest(string type)
+        {
+            var test = testDBContext.Test.Where(t => t.Type.StartsWith(type));
+            return Ok(test);
+        }
         // POST: api/Tests
         public IHttpActionResult Post([FromBody]Test test)
         {
